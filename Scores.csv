@@ -1,0 +1,10 @@
+"Model","Score"
+"LM - NoDates",0.869
+"GBM - NoDates",0.901
+"RF - NoDates",0.893
+"LM - NoDatesHistory",0.785
+"GBM - NoDatesHistory",0.896
+"RF - NoDatesHistory",0.895
+"LM - NoDatesScaled",0.891
+"GBM - NoDatesScaled",0.859
+"RF - NoDatesScaled",0.912

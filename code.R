@@ -82,8 +82,8 @@
     names(NoDatesHistory) <- paste0("S",c(1:30))
     NoDatesScaled <- ScaledData[1:50,-1]
     NoDatesScaledTest <- ScaledData[51:100,-1]
-    Scores <- as.data.frame(matrix(nrow=9, ncol=2))
-    names(Scores) <- c("Model","Score")
+    Scores <- as.data.frame(matrix(nrow=9, ncol=3))
+    names(Scores) <- c("Model","R2","RMSE")
 
     rm(ScaledData)
 
@@ -99,10 +99,11 @@
                    method="lm",
                    trControl=ctrl)
         #fitLM
-        BestFitLM <- fitLM$results[fitLM$results$Rsquared == max(fitLM$results$Rsquared),]
-        paste0("LM: ", round(BestFitLM$Rsquared,3))
+        BestFit <- fitLM$results[fitLM$results$Rsquared == max(fitLM$results$Rsquared),]
+        paste0("LM: ", round(BestFit$Rsquared,3))
         Scores$Model[1] <- "LM - NoDates"
-        Scores$Score[1] <- round(BestFitLM$Rsquared,3)
+        Scores$R2[1] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[1] <- round(BestFit$RMSE,3)
         
         pdf("./Plots/LMVarImp.pdf", width = 3, height = 5)
         LMImp <- varImp(fitLM, scale = FALSE)
@@ -129,10 +130,11 @@
                   tuneGrid = gridGBM,
                   verbose = FALSE)
         #print(fit1)
-        BestFitGBM <- fitGBM$results[fitGBM$results$Rsquared == max(fitGBM$results$Rsquared),]
-        paste0("GBM: ", round(BestFitGBM$Rsquared,3))
+        BestFit <- fitGBM$results[fitGBM$results$Rsquared == max(fitGBM$results$Rsquared),]
+        paste0("GBM: ", round(BestFit$Rsquared,3))
         Scores$Model[2] <- "GBM - NoDates"
-        Scores$Score[2] <- round(BestFitGBM$Rsquared,3)
+        Scores$R2[2] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[2] <- round(BestFit$RMSE,3)
         rm(fitGBM, ctrl, gridGBM)
   
     #Random Forest
@@ -148,11 +150,12 @@
                     tuneGrid = gridRF,
                     verbose = FALSE)
         #print(fit1)
-        BestFitRF <- fitRF$results[fitRF$results$Rsquared == max(fitRF$results$Rsquared),]
-        paste0("RF: ", round(BestFitRF$Rsquared,3))
-        BestFitRF
+        BestFit <- fitRF$results[fitRF$results$Rsquared == max(fitRF$results$Rsquared),]
+        paste0("RF: ", round(BestFit$Rsquared,3))
+        BestFit
         Scores$Model[3] <- "RF - NoDates"
-        Scores$Score[3] <- round(BestFitRF$Rsquared,3)
+        Scores$R2[3] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[3] <- round(BestFit$RMSE,3)
         rm(fitRF, ctrl, gridRF)
 
     rm(NoDates)
@@ -169,10 +172,11 @@
                        method="lm",
                        trControl=ctrl)
         #fitLM
-        BestFitLM <- fitLM$results[fitLM$results$Rsquared == max(fitLM$results$Rsquared),]
-        paste0("LM: ", round(BestFitLM$Rsquared,3))
+        BestFit <- fitLM$results[fitLM$results$Rsquared == max(fitLM$results$Rsquared),]
+        paste0("LM: ", round(BestFit$Rsquared,3))
         Scores$Model[4] <- "LM - NoDatesHistory"
-        Scores$Score[4] <- round(BestFitLM$Rsquared,3)
+        Scores$R2[4] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[4] <- round(BestFit$RMSE,3)
         rm(fitLM, ctrl)
     
     
@@ -192,11 +196,12 @@
                       tuneGrid = gridGBM,
                       verbose = FALSE)
         #print(fit1)
-        BestFitGBM <- fitGBM$results[fitGBM$results$Rsquared == max(fitGBM$results$Rsquared),]
-        paste0("GBM: ", round(BestFitGBM$Rsquared,3))
-        BestFitGBM
+        BestFit <- fitGBM$results[fitGBM$results$Rsquared == max(fitGBM$results$Rsquared),]
+        paste0("GBM: ", round(BestFit$Rsquared,3))
+        BestFit
         Scores$Model[5] <- "GBM - NoDatesHistory"
-        Scores$Score[5] <- round(BestFitGBM$Rsquared,3)
+        Scores$R2[5] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[5] <- round(BestFit$RMSE,3)
         rm(fitGBM, ctrl, gridGBM)
     
     #Random Forest
@@ -212,11 +217,12 @@
                      tuneGrid = gridRF,
                      verbose = FALSE)
         #print(fit1)
-        BestFitRF <- fitRF$results[fitRF$results$Rsquared == max(fitRF$results$Rsquared),]
-        paste0("RF: ", round(BestFitRF$Rsquared,3))
-        BestFitRF
+        BestFit <- fitRF$results[fitRF$results$Rsquared == max(fitRF$results$Rsquared),]
+        paste0("RF: ", round(BestFit$Rsquared,3))
+        BestFit
         Scores$Model[6] <- "RF - NoDatesHistory"
-        Scores$Score[6] <- round(BestFitRF$Rsquared,3)
+        Scores$R2[6] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[6] <- round(BestFit$RMSE,3)
         rm(fitRF, ctrl, gridRF)
         
         rm(NoDatesHistory)
@@ -234,10 +240,11 @@
                        method="lm",
                        trControl=ctrl)
         #fitLM
-        BestFitLM <- fitLM$results[fitLM$results$Rsquared == max(fitLM$results$Rsquared),]
-        paste0("LM: ", round(BestFitLM$Rsquared,3))
+        BestFit <- fitLM$results[fitLM$results$Rsquared == max(fitLM$results$Rsquared),]
+        paste0("LM: ", round(BestFit$Rsquared,3))
         Scores$Model[7] <- "LM - NoDatesScaled"
-        Scores$Score[7] <- round(BestFitLM$Rsquared,3)
+        Scores$R2[7] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[7] <- round(BestFit$RMSE,3)
         rm(fitLM, ctrl)
         
         
@@ -256,11 +263,12 @@
                       tuneGrid = gridGBM,
                       verbose = FALSE)
         #print(fit1)
-        BestFitGBM <- fitGBM$results[fitGBM$results$Rsquared == max(fitGBM$results$Rsquared),]
-        paste0("GBM: ", round(BestFitGBM$Rsquared,3))
-        BestFitGBM
+        BestFit <- fitGBM$results[fitGBM$results$Rsquared == max(fitGBM$results$Rsquared),]
+        paste0("GBM: ", round(BestFit$Rsquared,3))
+        BestFit
         Scores$Model[8] <- "GBM - NoDatesScaled"
-        Scores$Score[8] <- round(BestFitGBM$Rsquared,3)
+        Scores$R2[8] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[8] <- round(BestFit$RMSE,3)
         rm(fitGBM, ctrl, gridGBM)
         
       #Random Forest
@@ -276,47 +284,53 @@
                      tuneGrid = gridRF,
                      verbose = FALSE)
         #print(fit1)
-        BestFitRF <- fitRF$results[fitRF$results$Rsquared == max(fitRF$results$Rsquared),]
-        paste0("RF: ", round(BestFitRF$Rsquared,3))
-        BestFitRF
+        BestFit <- fitRF$results[fitRF$results$Rsquared == max(fitRF$results$Rsquared),]
+        paste0("RF: ", round(BestFit$Rsquared,3), round(BestFit$RMSE,3))
+        BestFit
         Scores$Model[9] <- "RF - NoDatesScaled"
-        Scores$Score[9] <- round(BestFitRF$Rsquared,3)
+        Scores$R2[9] <- round(BestFit$Rsquared,3)
+        Scores$RMSE[9] <- round(BestFit$RMSE,3)
         rm(fitRF, ctrl, gridRF)
-        rm(BestFitRF, BestFitLM, BestFitGBM)
+        rm(BestFit)
         
-# Train Best Model - GBM (0.01, 10, 1, 30)#####
+# Train Best Model - RF #####
         #Gradient Boosting
-          set.seed(1)
-          #Setup Repeated k-fold Cross Validation
-          ctrl <- trainControl(method="repeatedcv", number=10, repeats=3)
-          gridGBM<-expand.grid(interaction.depth = 3,
-                               n.trees = 35,
-                               shrinkage = 0.01,
-                               n.minobsinnode = 1)
+        set.seed(1)
+        #Setup Repeated k-fold Cross Validation
+        ctrl <- trainControl(method="repeatedcv", number=10, repeats=3)
+        gridRF<-expand.grid(mtry=2)
+        
+        fitRF<-train(S1~.,
+                     data = NoDatesScaled,
+                     method="rf",
+                     trControl=ctrl,
+                     tuneGrid = gridRF,
+                     verbose = FALSE,
+                     importance = TRUE)
           
-          fitGBM<-train(S1~.,
-                        data = NoDatesScaled,
-                        method="gbm",
-                        trControl=ctrl,
-                        tuneGrid = gridGBM,
-                        verbose = FALSE)
-          
-          pdf("./Plots/FinalGBMVarImp.pdf", width = 3, height = 5)
-          gbmImp <- varImp(fitGBM, scale = FALSE)
-          plot(gbmImp, top = 5)
+          pdf("./Plots/FinalRFVarImp.pdf", width = 3, height = 5)
+          impRF <- varImp(fitRF, scale = FALSE)
+          plot(impRF, top = 5)
           dev.off()
           
-          rm(ctrl, gridGBM)
+          rm(ctrl, gridRF, impRF)
           
                 
   
 #Make Final Predictions - Send it #####
-    S1<-predict(fitGBM, NoDatesScaledTest)
+    S1<-predict(fitRF, NoDatesScaledTest)
+    mean(S1)
+    sd(S1)
+    CI <- predict(fitRF$finalModel, NoDatesScaled, interval = "confidence")
+    mean(CI)
+    sd(CI)
+    min(abs(CI))
+    max(abs(CI))
     date <- as.data.frame(data$date[51:100])
     Output <- cbind(date, S1)
     names(Output) <- c("date","S1")
     write.csv(Output,"predictions.csv", row.names = FALSE)
     write.csv(Scores, "Scores.csv", row.names = FALSE)
     rm(S1, Output)
-    rm(date, data, Scores, fitGBM, NoDatesScaledTest, NoDatesScaled)
+    rm(date, data, Scores, fitRF, NoDatesScaledTest, NoDatesScaled, CI)
   

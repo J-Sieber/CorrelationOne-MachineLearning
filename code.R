@@ -331,6 +331,7 @@
     names(Output) <- c("date","S1")
     write.csv(Output,"predictions.csv", row.names = FALSE)
     write.csv(Scores, "Scores.csv", row.names = FALSE)
+   
     rm(S1, Output)
     rm(date, data, Scores, fitRF, NoDatesScaledTest, NoDatesScaled, CI)
   
